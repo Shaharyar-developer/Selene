@@ -1,0 +1,6 @@
+{
+  "name": "desktop",
+  "dependencies": {
+    "server": "workspace:*"
+  }
+}

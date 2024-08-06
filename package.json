@@ -1,0 +1,9 @@
+{
+  "name": "selene",
+  "private": true,
+  "workspaces": [
+    "packages/desktop",
+    "packages/mobile",
+    "packages/server"
+  ]
+}
