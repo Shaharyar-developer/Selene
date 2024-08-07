@@ -44,7 +44,7 @@ export default function RootLayout() {
 
 fs.rename(oldDirPath, newDirPath, (error) => {
   if (error) {
-    return console.error(`Error renaming directory: ${error}`);
+    console.error(`Error renaming directory: ${error}`);
   }
   console.log('/app moved to /app-example.');
 

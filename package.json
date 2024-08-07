@@ -2,8 +2,9 @@
   "name": "selene",
   "private": true,
   "workspaces": [
-    "packages/desktop",
-    "packages/mobile",
-    "packages/server"
-  ]
+    "packages/*"
+  ],
+  "dependencies": {
+    "zod": "^3.23.8"
+  }
 }
