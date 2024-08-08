@@ -35,12 +35,18 @@ const createOrGetAssistant = async (
 
 const createThread = async () => {
   const thread = await client.beta.threads.create();
+  await db.set("threadId", thread.id);
   return thread;
 };
 
 const createOrGetThread = async () => {
-  const thread = await createThread();
-  return thread;
+  const threadId = await db.get("threadId");
+
+  if (threadId) {
+    return await client.beta.threads.retrieve(threadId);
+  } else {
+    return await createThread();
+  }
 };
 
 export { createOrGetAssistant, createOrGetThread };
