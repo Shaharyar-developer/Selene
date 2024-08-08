@@ -2,12 +2,13 @@
   "name": "selene",
   "private": true,
   "scripts": {
-    "docs-all": "bun typedoc"
+    "docs-all": "bun typedoc --plugin typedoc-material-theme --themeColor '#8B5CF6'"
   },
   "workspaces": [
     "packages/*"
   ],
   "dependencies": {
+    "typedoc-material-theme": "^1.1.0",
     "zod": "^3.23.8"
   }
 }
