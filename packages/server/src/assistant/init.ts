@@ -1,7 +1,7 @@
 import OpenAI from "openai";
-import { db } from "@/libs/db";
-import { openai as client } from "@/libs/openai";
-import { ASSISTANT } from "@/libs/constants";
+import { db } from "../libs/db";
+import { openai as client } from "../libs/openai";
+import { ASSISTANT } from "../libs/constants";
 
 /**
  * Retrieves the assistant ID from the database.

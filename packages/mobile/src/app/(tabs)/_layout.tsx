@@ -2,9 +2,9 @@ import FontAwesome from "@expo/vector-icons/AntDesign";
 import { Redirect, Tabs } from "expo-router";
 import { useEffect, useState } from "react";
 import { LoadingState } from "./loading";
-import { useAuth } from "@/src/hooks/useAuth";
+import { useAuth } from "../../hooks/useAuth";
 import { View } from "react-native";
-import { AuthOTP } from "@/src/components/otp";
+import { AuthOTP } from "../../components/otp";
 
 export default function TabLayout() {
   const [isLoading, setIsLoading] = useState(true);

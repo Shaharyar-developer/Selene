@@ -1,5 +1,5 @@
 import OpenAi from "openai";
-import { env } from "@/libs/env";
+import { env } from "../libs/env";
 
 class OpenAiSingleton {
   private static instance: OpenAi;

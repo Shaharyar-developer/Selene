@@ -1,4 +1,4 @@
-import { workspaceDB } from "@/libs/db";
+import { workspaceDB } from "../libs/db";
 import { exec } from "child_process";
 import fs from "fs";
 
@@ -32,7 +32,9 @@ export async function getAllFromDB(): Promise<Record<string, string>> {
     if (keys.length > 0) {
       const values = await workspaceDB.mget(keys);
       keys.forEach((key, index) => {
-        if (values[index]) keyValuePairs[key] = values[index];
+        if (values[index] !== null) {
+          keyValuePairs[key] = values[index] as string;
+        }
       });
     }
   } while (cursor !== "0");

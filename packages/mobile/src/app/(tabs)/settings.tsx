@@ -1,5 +1,5 @@
-import { Button } from "@/src/components/ui/button";
-import { useAuth } from "@/src/hooks/useAuth";
+import { Button } from "../../components/ui/button";
+import { useAuth } from "../../hooks/useAuth";
 import { View } from "react-native";
 
 export default function Tab() {

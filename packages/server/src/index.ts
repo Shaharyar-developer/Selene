@@ -1,7 +1,7 @@
 import Express from "express";
-import { db } from "@/libs/db";
+import { db } from "./libs/db";
 import { nanoid } from "nanoid";
-import RedisClient from "@/libs/redis";
+import RedisClient from "./libs/redis";
 import { createOrGetAssistant, createOrGetThread } from "./assistant/init";
 import assert from "assert";
 import { env } from "./libs/env";

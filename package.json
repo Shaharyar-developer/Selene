@@ -2,8 +2,7 @@
   "name": "selene",
   "private": true,
   "scripts": {
-    "docs": "typedoc",
-    "docs-all": "npm run docs --workspaces --if-present"
+    "docs-all": "bun typedoc"
   },
   "workspaces": [
     "packages/*"

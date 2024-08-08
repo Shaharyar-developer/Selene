@@ -5,8 +5,8 @@
 
 import type OpenAI from "openai";
 import { EventEmitter } from "events";
-import { openai as client } from "@/libs/openai";
-import { workspaceDB, db } from "@/libs/db";
+import { openai as client } from "../libs/openai";
+import { workspaceDB, db } from "../libs/db";
 import type { Stream } from "openai/streaming";
 import { getAllFromDB, runCommand, deleteFromDB, saveToDB } from "./functions";
 

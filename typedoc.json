@@ -1,6 +1,9 @@
 {
-  "entryPoints": ["packages/*"],
-  "name": "Selene Documentation",
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["packages/api-handler/", "packages/server/"],
+  "exclude": ["mobile"],
+  "name": "Packages Example",
   "entryPointStrategy": "packages",
-  "includeVersion": false
+  "includeVersion": false,
+  "skipErrorChecking": true
 }
