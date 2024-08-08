@@ -1,5 +1,5 @@
 import Express from "express";
-import { db } from "../utils/db";
+import { db } from "@/libs/db";
 import { nanoid } from "nanoid";
 const app = Express();
 
