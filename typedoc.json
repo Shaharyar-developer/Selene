@@ -1,6 +1,6 @@
 {
   "$schema": "https://typedoc.org/schema.json",
-  "entryPoints": ["packages/api-handler/"],
+  "entryPoints": ["packages/api-handler/", "packages/api-handler/server"],
   "exclude": ["mobile"],
   "name": "Packages Example",
   "entryPointStrategy": "packages",
