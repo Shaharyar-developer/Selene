@@ -12,17 +12,27 @@ import { isValidUTF8 } from "./libs/utils";
 const assistant = await createOrGetAssistant(true);
 const thread = await createOrGetThread();
 
+// Ensure necessary components are initialized
 assert(assistant, "Assistant not created");
 assert(thread, "Thread not created");
 assert(await RedisClient.ensureConnection(), "Redis Database is not running");
 assert(env.OPEN_AI_API_KEY, "OPEN_AI_API_KEY is required");
 
+// Create Express app and Run instance
 const app = Express();
 const runInstance = new Run({ assistant, thread });
 
+// Middleware setup
 app.use(Express.json());
 app.use(cors());
 
+/**
+ * Endpoint to set a key-value pair in the database.
+ * @route POST /db/set
+ * @param {string} key - The key to set in the database.
+ * @param {any} value - The value to set in the database.
+ * @returns {string} - A success message or an error message.
+ */
 app.post("/db/set", async (req, res) => {
   const { key, value } = req.body;
 
@@ -43,6 +53,12 @@ app.post("/db/set", async (req, res) => {
   }
 });
 
+/**
+ * Endpoint to get a value from the database by key.
+ * @route POST /db/get
+ * @param {string} key - The key to retrieve from the database.
+ * @returns {string} - The value associated with the key or an error message.
+ */
 app.post("/db/get", async (req, res) => {
   const { key } = req.body;
 
@@ -72,6 +88,11 @@ app.post("/db/get", async (req, res) => {
   }
 });
 
+/**
+ * Endpoint to generate an authentication code.
+ * @route GET /auth
+ * @returns {object} - An object containing the authentication code.
+ */
 app.get("/auth", async (req, res) => {
   try {
     await db.del("linkId");
@@ -84,6 +105,12 @@ app.get("/auth", async (req, res) => {
   }
 });
 
+/**
+ * Endpoint to create a new assistant run with a given prompt.
+ * @route POST /assistant/run/create
+ * @param {string} prompt - The prompt to create a new assistant run.
+ * @returns A readable stream of the assistant's response.
+ */
 app.post("/assistant/run/create", async (req, res) => {
   const { prompt } = req.body;
   if (prompt) {
@@ -105,4 +132,5 @@ app.post("/assistant/run/create", async (req, res) => {
   }
 });
 
+// Start the server
 app.listen(3000, () => console.log("Server is running on port 3000"));

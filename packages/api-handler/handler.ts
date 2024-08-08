@@ -12,13 +12,22 @@ import {
 class ApiClient {
   private client: AxiosInstance;
 
+  /**
+   * Creates an instance of ApiClient.
+   * @param {string} baseURL - The base URL for the API.
+   */
   constructor(baseURL: string) {
     this.client = axios.create({
       baseURL,
     });
   }
 
-  // /db/set endpoint
+  /**
+   * Sets a value in the database.
+   * @param {z.infer<typeof DbSetRequest>} data - The data to set in the database.
+   * @returns {Promise<void>} - A promise that resolves when the operation is complete.
+   * @throws {Error} - Throws an error if the request fails.
+   */
   public async setDbValue(data: z.infer<typeof DbSetRequest>): Promise<void> {
     const response = await this.client.post("/db/set", data);
     if (response.status !== 200) {
@@ -26,7 +35,12 @@ class ApiClient {
     }
   }
 
-  // /db/get endpoint
+  /**
+   * Gets a value from the database.
+   * @param {z.infer<typeof DbGetRequest>} data - The data to get from the database.
+   * @returns {Promise<z.infer<typeof DbGetResponse>>} - A promise that resolves with the retrieved data.
+   * @throws {Error} - Throws an error if the request fails.
+   */
   public async getDbValue(
     data: z.infer<typeof DbGetRequest>,
   ): Promise<z.infer<typeof DbGetResponse>> {
@@ -38,7 +52,11 @@ class ApiClient {
     }
   }
 
-  // /auth endpoint
+  /**
+   * Gets an authentication code.
+   * @returns {Promise<z.infer<typeof AuthResponse>>} - A promise that resolves with the authentication code.
+   * @throws {Error} - Throws an error if the request fails.
+   */
   public async getAuthCode(): Promise<z.infer<typeof AuthResponse>> {
     const response = await this.client.get("/auth");
     if (response.status === 200) {
@@ -48,7 +66,13 @@ class ApiClient {
     }
   }
 
-  // /assistant/run/create endpoint
+  /**
+   * Runs an assistant with the provided data.
+   * @param {z.infer<typeof AssistantRunCreateRequest>} data - The data to run the assistant with.
+   * @param {(text: string) => void} onText - Callback function to handle text output from the assistant.
+   * @returns {Promise<void>} - A promise that resolves when the operation is complete.
+   * @throws {Error} - Throws an error if the request fails.
+   */
   public async runAssistant(
     data: z.infer<typeof AssistantRunCreateRequest>,
     onText: (text: string) => void,

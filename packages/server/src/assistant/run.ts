@@ -1,15 +1,23 @@
+/**
+ * This module defines the `Run` class which extends `EventEmitter`.
+ * It interacts with the OpenAI API to create and handle runs, process tool calls, and manage events.
+ */
+
 import type OpenAI from "openai";
 import { EventEmitter } from "events";
 import { openai as client } from "@/libs/openai";
 import { workspaceDB, db } from "@/libs/db";
 import type { Stream } from "openai/streaming";
-import { getAllFromDB, runCommand } from "./functions";
+import { getAllFromDB, runCommand, deleteFromDB, saveToDB } from "./functions";
 
-//TODO: Ensure all existing runs are closed before creating a new one
 class Run extends EventEmitter {
   private assistant: OpenAI.Beta.Assistant;
   private thread: OpenAI.Beta.Thread;
 
+  /**
+   * Constructs a new `Run` instance.
+   * @param args - An object containing the assistant and thread.
+   */
   constructor(args: {
     assistant: OpenAI.Beta.Assistant;
     thread: OpenAI.Beta.Thread;
@@ -19,6 +27,10 @@ class Run extends EventEmitter {
     this.thread = args.thread;
   }
 
+  /**
+   * Creates a new run with the given prompt.
+   * @param prompt - The prompt to send to the assistant.
+   */
   public async createRun(prompt: string) {
     await client.beta.threads.messages.create(this.thread.id, {
       role: "user",
@@ -33,6 +45,10 @@ class Run extends EventEmitter {
     this.handleStream(stream);
   }
 
+  /**
+   * Handles the stream of events from the assistant.
+   * @param stream - The stream of assistant events.
+   */
   private async handleStream(
     stream: Stream<OpenAI.Beta.Assistants.AssistantStreamEvent>,
   ) {
@@ -42,6 +58,10 @@ class Run extends EventEmitter {
     }
   }
 
+  /**
+   * Handles individual events from the assistant stream.
+   * @param event - The event to handle.
+   */
   private async handleRunStreamEvent(
     event: OpenAI.Beta.Assistants.AssistantStreamEvent,
   ) {
@@ -89,6 +109,10 @@ class Run extends EventEmitter {
     }
   }
 
+  /**
+   * Handles events that require an action.
+   * @param eventData - The data for the required action event.
+   */
   private async handleRequiresAction(
     eventData: OpenAI.Beta.Assistants.AssistantStreamEvent.ThreadRunRequiresAction["data"],
   ) {
@@ -105,6 +129,12 @@ class Run extends EventEmitter {
     await this.handleStream(stream);
   }
 
+  /**
+   * Submits tool outputs to the assistant.
+   * @param toolOutputs - The tool outputs to submit.
+   * @param runId - The ID of the run.
+   * @param threadId - The ID of the thread.
+   */
   private async submitToolOutputs(
     toolOutputs: OpenAI.Beta.Threads.Runs.RunSubmitToolOutputsParams.ToolOutput[],
     runId: string,
@@ -115,6 +145,12 @@ class Run extends EventEmitter {
       stream: true,
     });
   }
+
+  /**
+   * Processes tool calls and returns their outputs.
+   * @param toolCalls - The tool calls to process.
+   * @returns A promise that resolves to an array of tool outputs.
+   */
   private async processToolCalls(
     toolCalls: OpenAI.Beta.Threads.Runs.RequiredActionFunctionToolCall[],
   ): Promise<OpenAI.Beta.Threads.Runs.RunSubmitToolOutputsParams.ToolOutput[]> {
@@ -131,9 +167,7 @@ class Run extends EventEmitter {
 
           case "saveToDB": {
             const { key, value } = JSON.parse(toolCall.function.arguments);
-            const data = await workspaceDB.set(key, value);
-            const _ = await workspaceDB.get(key);
-            console.log(key, value, _);
+            const data = await saveToDB(key, value);
             return {
               output: data,
               tool_call_id: toolCall.id,
@@ -142,7 +176,7 @@ class Run extends EventEmitter {
 
           case "deleteFromDB": {
             const { key } = JSON.parse(toolCall.function.arguments);
-            const data = await workspaceDB.del(key);
+            const data = await deleteFromDB(key);
             return {
               output: `Key Value Pairs Deleted: ${data}`,
               tool_call_id: toolCall.id,

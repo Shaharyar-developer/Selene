@@ -1,0 +1,6 @@
+{
+  "entryPoints": ["packages/*"],
+  "name": "Selene Documentation",
+  "entryPointStrategy": "packages",
+  "includeVersion": false
+}

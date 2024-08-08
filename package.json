@@ -1,6 +1,10 @@
 {
   "name": "selene",
   "private": true,
+  "scripts": {
+    "docs": "typedoc",
+    "docs-all": "npm run docs --workspaces --if-present"
+  },
   "workspaces": [
     "packages/*"
   ],

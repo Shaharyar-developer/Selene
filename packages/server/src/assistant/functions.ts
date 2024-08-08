@@ -39,9 +39,13 @@ export async function getAllFromDB(): Promise<Record<string, string>> {
   return keyValuePairs;
 }
 
-export async function saveToDB(key: string, value: string): Promise<void> {
+export async function saveToDB(key: string, value: string) {
   await workspaceDB.set(key, value);
+  return JSON.stringify({
+    key,
+    value,
+  });
 }
-export async function deleteFromDB(key: string): Promise<void> {
-  await workspaceDB.del(key);
+export async function deleteFromDB(key: string): Promise<number> {
+  return await workspaceDB.del(key);
 }
