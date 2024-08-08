@@ -31,7 +31,7 @@ jobs:
         run: bun install
 
       - name: Generate documentation
-        run: bun run docs
+        run: bun run docs-all
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
