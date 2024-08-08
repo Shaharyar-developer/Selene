@@ -7,6 +7,6 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const localURI =
+export const apiURI =
   `http://${Constants.expoConfig?.hostUri?.split(":").shift()?.concat(":3000")}` ??
   "API_PATH";

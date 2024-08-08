@@ -1,11 +1,12 @@
 import Animated, { LinearTransition } from "react-native-reanimated";
 import { Pressable, Text, View } from "react-native";
 import { useState } from "react";
-import { localURI } from "../libs/utils";
-import { type newAuthResponseType } from "types/schema";
+import { apiURI } from "../libs/utils";
+import { type AuthResponseType } from "api-handler/schema";
 import { useAuth } from "../hooks/useAuth";
 import { Button } from "./ui/button";
 import { reloadAppAsync } from "expo";
+import handler from "../libs/api-handler";
 
 export const AuthOTP = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -14,8 +15,7 @@ export const AuthOTP = () => {
     if (isLoading) return;
     setIsLoading(true);
     try {
-      const res = await fetch(`${localURI}/auth`);
-      const data = (await res.json()) as newAuthResponseType;
+      const data = await handler.getAuthCode();
       setAuth(data.code);
     } catch (e) {
       console.log(e);
