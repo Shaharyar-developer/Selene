@@ -1,6 +1,6 @@
 {
   "name": "server",
-  "dependencies": { "express": "^4.19.2", "ioredis": "^5.4.1" },
+  "dependencies": { "express": "^4.19.2", "ioredis": "^5.4.1", "nanoid": "^5.0.7" },
   "devDependencies": {
     "@types/express": "^4.17.21"
   }

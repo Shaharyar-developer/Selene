@@ -29,7 +29,13 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      [
+        "expo-secure-store",
+        {
+          "faceIDPermission": "Allow $(PRODUCT_NAME) to access your Face ID biometric data."
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
@@ -42,6 +48,12 @@
         "projectId": "f914d23e-096a-4b89-a547-a58d72c45a00"
       }
     },
-    "owner": "shaharyar-dev"
+    "owner": "shaharyar-dev",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/f914d23e-096a-4b89-a547-a58d72c45a00"
+    }
   }
 }

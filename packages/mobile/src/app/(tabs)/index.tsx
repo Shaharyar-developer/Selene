@@ -9,7 +9,7 @@ export default function Tab() {
     height.value = withDelay(500, withSpring(Dimensions.get('window').height * 0.75));
   }, [])
   return (
-    <View className='flex-1 bg-black'>
+    <View className='flex-1 bg-background'>
       <Animated.View
         className='bg-neutral-900 rounded-3xl mt-4'
         style={{

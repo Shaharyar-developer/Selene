@@ -1,5 +1,6 @@
 import Express from "express";
 import { db } from "../utils/db";
+import { nanoid } from "nanoid";
 const app = Express();
 
 app.post("/db/set", async (req, res) => {
@@ -42,6 +43,18 @@ app.post("/db/get", async (req, res) => {
     // Check if value is a buffer and convert to string if necessary
     const responseValue = Buffer.isBuffer(value) ? value.toString() : value;
     return res.status(200).send(responseValue);
+  } catch (error) {
+    console.error("Database error:", error);
+    return res.status(500).send("Internal Server Error");
+  }
+});
+
+app.get("/auth", async (req, res) => {
+  try {
+    await db.del("linkId");
+    const id = nanoid();
+    await db.set("linkId", id);
+    return res.status(200).send({ code: id });
   } catch (error) {
     console.error("Database error:", error);
     return res.status(500).send("Internal Server Error");

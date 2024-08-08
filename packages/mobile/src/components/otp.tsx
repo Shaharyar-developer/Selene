@@ -1,51 +1,40 @@
-
-import { OtpInput } from 'react-native-otp-entry';
-import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
+import Animated, { LinearTransition } from "react-native-reanimated";
+import { Pressable, Text, View } from "react-native";
+import { useState } from "react";
+import { localURI } from "../libs/utils";
+import { type newAuthResponseType } from "types/schema";
+import { useAuth } from "../hooks/useAuth";
+import { Button } from "./ui/button";
+import { reloadAppAsync } from "expo";
 
 export const AuthOTP = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const { setAuth, checkAuth } = useAuth();
+  const handleAuth = async () => {
+    if (isLoading) return;
+    setIsLoading(true);
+    try {
+      const res = await fetch(`${localURI}/auth`);
+      const data = (await res.json()) as newAuthResponseType;
+      setAuth(data.code);
+    } catch (e) {
+      console.log(e);
+    }
+    await reloadAppAsync();
+  };
   return (
-    <View className='flex-1 bg-black justify-center gap-8'>
-      <Text className='text-2xl text-white text-center mb-4'>Authentication Code</Text>
-      <OtpInput
-        numberOfDigits={6}
-        focusColor="white"
-        focusStickBlinkingDuration={1000}
-        onFilled={(text) => console.log(`OTP is ${text}`)}
-        textInputProps={{
-          accessibilityLabel: "One-Time Password",
-        }}
-        autoFocus={false}
-        theme={{
-          containerStyle: styles.container,
-          pinCodeContainerStyle: styles.pinCodeContainer,
-          pinCodeTextStyle: styles.pinCodeText,
-          focusStickStyle: styles.focusStick,
-          focusedPinCodeContainerStyle: styles.activePinCodeContainer,
-        }}
-      />
-      <Pressable className='bg-white p-2.5 rounded-3xl'><Text className='text-black text-center'>Submit</Text></Pressable>
-      <Text className='mt-12 text-neutral-500 text-center'>For details on getting started, run the server docker container and read the documentation</Text>
+    <View className="flex-1 bg-background justify-center gap-8 max-w-[90%] mx-auto">
+      <Text className="text-2xl text-white text-center">
+        Authentication - OTP
+      </Text>
+      <Button onPressOut={async () => await handleAuth()}>
+        Send Auth Request
+      </Button>
+      <Animated.View layout={LinearTransition}></Animated.View>
+      <Text className="mt-12 text-neutral-500 text-center">
+        For details on getting started, run the server docker container and read
+        the documentation
+      </Text>
     </View>
-  )
-}
-const styles = StyleSheet.create({
-  container: {
-    width: Dimensions.get('window').width * 0.8,
-    marginHorizontal: Dimensions.get('window').width * 0.2,
-  },
-  pinCodeContainer: {
-    backgroundColor: '#000',
-    borderColor: '#808080',
-    borderRadius: 20,
-    width: 45,
-  },
-  pinCodeText: {
-    color: '#f0f0f0',
-  },
-  focusStick: {
-    backgroundColor: '#fff',
-  },
-  activePinCodeContainer: {
-    borderColor: '#fff',
-  },
-});
+  );
+};

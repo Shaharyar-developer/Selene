@@ -44,7 +44,7 @@ export function LoadingState() {
   }, []);
 
   return (
-    <View className='flex-1 justify-center items-center bg-black'>
+    <View className='flex-1 justify-center items-center bg-background'>
       <Animated.View
         className='absolute inset-0'
         style={{
