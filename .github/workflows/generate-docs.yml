@@ -35,6 +35,13 @@ jobs:
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
+      - name: Debugging
+        run: |
+          echo "Current directory:"
+          pwd
+          echo "Directory listing:"
+          ls -la
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
