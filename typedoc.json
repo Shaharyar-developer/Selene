@@ -5,6 +5,5 @@
   "name": "Selene",
   "entryPointStrategy": "packages",
   "includeVersion": false,
-  "skipErrorChecking": true,
-  "watch": true
+  "skipErrorChecking": true
 }
