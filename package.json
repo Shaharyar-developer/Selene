@@ -2,7 +2,7 @@
   "name": "selene",
   "private": true,
   "scripts": {
-    "docs-all": "bun typedoc --plugin typedoc-material-theme --themeColor '#8B5CF6'"
+    "docs-all": "bun typedoc --plugin typedoc-material-theme --themeColor '#1F1F1F'"
   },
   "workspaces": [
     "packages/*"

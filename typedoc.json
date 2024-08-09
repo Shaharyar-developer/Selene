@@ -1,9 +1,10 @@
 {
   "$schema": "https://typedoc.org/schema.json",
-  "entryPoints": ["packages/api-handler"],
-  "exclude": ["mobile"],
-  "name": "Packages Example",
+  "entryPoints": ["packages/*"],
+  "exclude": ["packages/mobile", "packages/server", "packages/desktop"],
+  "name": "Selene",
   "entryPointStrategy": "packages",
   "includeVersion": false,
-  "skipErrorChecking": true
+  "skipErrorChecking": true,
+  "watch": true
 }
